@@ -25,3 +25,10 @@ vault write -f racfpassphrase/rotate-role/passphrase
 echo "3. Login"
 export PASSWORD=$(vault read -field=password racfpassphrase/static-cred/passphrase)
 LDAPTLS_REQCERT=never ldapsearch -H ldaps://9.85.77.229:636 -D "racfid=LDAPT01,profiletype=user,cn=ZOSEVD01" -w $PASSWORD -s base -b "racfid=LDAPT01,profiletype=user,cn=ZOSEVD01" "objectclass=*"
+
+# Vault create policy
+vault policy write racf - <<EOF
+path "racfpassphrase/static-cred/passphrase" {
+  capabilities = ["read"]
+}
+EOF

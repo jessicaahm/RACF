@@ -1,0 +1,3 @@
+{{- with secret "racfpassphrase/static-cred/passphrase" -}}
+{{ .Data.password }}
+{{- end }}

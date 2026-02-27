@@ -1,3 +1,17 @@
+# Pre-requisite
+In IBM WAS:
+- SSH Server
+
+In Vault Agent:
+- SSHPASS
+- SCP
+
+Secret Engine required:
+1. KV2 (To store WAS password)
+2. LDAP Secret Engine (rotation for DB2)
+
+Note: WAS need to be restarted after password changes
+
 # RACF - Password
 
 > Note: RACF passphrase has to be more than 14 charters can be up to 100 characters.
