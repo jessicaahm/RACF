@@ -3,8 +3,9 @@ In IBM WAS:
 - SSH Server
 
 In Vault Agent:
-- SSHPASS
-- SCP
+- Vault Binary
+- SSHPASS 
+- SCP [Default]
 
 Secret Engine required:
 1. KV2 (To store WAS password)
@@ -12,7 +13,11 @@ Secret Engine required:
 
 Note: WAS need to be restarted after password changes
 
-# RACF - Password
+## Final Use Case
+![Demo](img/demo.gif)
+
+
+## RACF - Password
 
 > Note: RACF passphrase has to be more than 14 charters can be up to 100 characters.
 
@@ -21,6 +26,8 @@ Note: WAS need to be restarted after password changes
 
 #ssh
 ssh LDAPU001@9.85.77.229
+JCL --> 
+IBM Host On-Demand
 
 tsocmd "LU LDAPU001"
 tsocmd "LU LDAPT01"
@@ -69,7 +76,7 @@ racfAttributes: noexpired
 EOF
 
 # LDAP Search
-ldapsearch -h ldaps://9.85.77.229 -p 636 -D "racfid=LDAPU001,profiletype=user,cn=ZOSEVD01" -w M3vQ9rL1xK7nB4tW6zG2 -s base -b "racfid=LDAPT01,profiletype=user,cn=ZOSEVD01" "objectclass=*"
+ldapsearch -h ldaps://9.85.77.229 -p 636 -D "racfid=LDAPU001,profiletype=user,cn=ZOSEVD01" -w abcd1234 -s base -b "racfid=LDAPT01,profiletype=user,cn=ZOSEVD01" "objectclass=*"
 
 # LDAP Search - without SSL
 LDAPTLS_REQCERT=never ldapsearch -H ldaps://9.85.77.229:636 -D "racfid=LDAPU001,profiletype=user,cn=ZOSEVD01" -w M3vQ9rL1xK7nB4tW6zG2 -s base -b "racfid=LDAPT01,profiletype=user,cn=ZOSEVD01" "objectclass=*"
