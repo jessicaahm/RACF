@@ -13,9 +13,30 @@ Secret Engine required:
 
 Note: WAS need to be restarted after password changes
 
-## Final Use Case
+## Demo Video
 ![Demo](img/demo.gif)
 
+The test can be run with the following command:
+```sh
+# start 
+docker exec -u root test /usr/sbin/sshd
+docker exec -it test bash -c "pgrep sshd && echo 'sshd running'"
+
+# Start Agent
+docker run --name agent \
+  -v $(pwd)/agent.hcl:/etc/vault/agent.hcl \
+  -v $(pwd)/token:/etc/.vault-token \
+  -v $(pwd)/render.ctmpl:/etc/vault/render.ctmpl \
+  -v $(pwd)/exec.sh:/etc/vault/exec.sh \
+  -v $(pwd)/update_j2c_password.py:/tmp/update_j2c_password.py \
+  -v $(pwd)/ssh:/root/.ssh \
+  -p 8400:8400 \
+  hashicorp/vault-enterprise:latest \
+  /bin/sh -c "chmod +x /etc/vault/exec.sh && vault agent -config=/etc/vault/agent.hcl -log-level=debug -log-file=/etc/vault/agent.log"
+
+# restart was
+docker restart test
+```
 
 ## RACF - Password
 
