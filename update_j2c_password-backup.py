@@ -1,22 +1,17 @@
 # ========================================================================
 # Script Name  : update_j2c_password.py
 # Purpose      : Update J2C Authentication Alias Password
-# Usage        : wsadmin.sh -lang jython -f update_j2c_password.py DB2Auth
+# Usage        : wsadmin.sh -lang jython -f update_j2c_password.py DB2Auth newPassword
 # ========================================================================
 
 import sys
-import os
 
-if len(sys.argv) != 1:
-    print "Usage: wsadmin.sh -lang jython -f update_j2c_password.py <AliasName>"
+if len(sys.argv) != 2:
+    print "Usage: wsadmin.sh -lang jython -f update_j2c_password.py <AliasName> <NewPassword>"
     sys.exit(1)
 
 aliasName = sys.argv[0]
-newPassword = os.environ.get('PASSWORD')
-
-if not newPassword:
-    print "ERROR: PASSWORD environment variable not set"
-    sys.exit(1)
+newPassword = open(sys.argv[1]).read().strip()
 
 print "Updating J2C Alias: " + aliasName
 
